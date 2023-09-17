@@ -58,53 +58,75 @@
                             ItemsSource="{Binding Coins}"
                             SelectionMode="None"
                             IsGrouped="True"
-                            Margin="5,0,5,0"
+                            Margin="5,30,5,0"
                             VerticalOptions="FillAndExpand">
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate>
                         <Grid VerticalOptions="FillAndExpand"
-                              Padding="10">
+                              RowDefinitions="*,Auto">
                             <Label Text="{Binding Key}"
                                    Style="{StaticResource listHeaderStyle}"
+                                   Margin="10"
                                    TextColor="LightSlateGray"
                                    VerticalOptions="Center" />
+                            <BoxView Grid.Row="1"
+                                     Color="LightCoral"
+                                     HeightRequest="1"
+                                     HorizontalOptions="FillAndExpand" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:MarketUSDCoin">
-                        <Grid AutomationId="CoinListViewCell"
-                              HeightRequest="100"
-                              Margin="0,0,0,5"
-                              ColumnSpacing="10"
-                              Padding="5"
-                              BackgroundColor="White"
-                              ColumnDefinitions="70,*">
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:CoinListPageViewModel}}, Path=TapCommand}"
-                                                      CommandParameter="{Binding .}" />
-                            </Grid.GestureRecognizers>
-
-                            <Image 
-                                   WidthRequest="50"
-                                   HeightRequest="50"
-                                   Aspect="AspectFit">
-                                <Image.Source>
-                                    <UriImageSource CacheValidity="5"
-                                                    CachingEnabled="True"
-                                                    Uri="{Binding Image}" />
-                                </Image.Source>
-                            </Image>
-                            <Grid Grid.Column="1"
-                                  Padding="0,5,0,0"
-                                  RowDefinitions="Auto,*"
-                                  RowSpacing="10">
-                                <Label Text="{Binding Name, Mode=OneTime}"
-                                       Style="{StaticResource listNameStyle}" />
-                                <Label Grid.Row="1"
-                                       Text="{Binding Symbol, Mode=OneTime}"
-                                       Style="{StaticResource listDetailStyle}" />
+                        <Grid RowDefinitions="*,Auto"
+                              RowSpacing="0">
+                            <Grid AutomationId="CoinListViewCell"
+                                  HeightRequest="100"
+                                  Margin="0"
+                                  ColumnDefinitions="70,*"
+                                  ColumnSpacing="10"
+                                  BackgroundColor="White"
+                                  VerticalOptions="Center">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:CoinListPageViewModel}}, Path=TapCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
+                                <Border HeightRequest="70"
+                                        WidthRequest="70"
+                                        BackgroundColor="#3ee67b"
+                                        Padding="10">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="20" />
+                                    </Border.StrokeShape>
+                                    <Image WidthRequest="50"
+                                           HeightRequest="50"
+                                           Aspect="AspectFit"
+                                           VerticalOptions="Center">
+                                        <Image.Source>
+                                            <UriImageSource CacheValidity="5"
+                                                            CachingEnabled="True"
+                                                            Uri="{Binding Image}" />
+                                        </Image.Source>
+                                    </Image>
+                                </Border>
+                               
+                                <Grid Grid.Column="1"
+                                      Padding="0,5,0,0"
+                                      RowDefinitions="Auto,*"
+                                      RowSpacing="10"
+                                      VerticalOptions="Center">
+                                    <Label Text="{Binding Name, Mode=OneTime}"
+                                           Style="{StaticResource listNameStyle}" />
+                                    <Label Grid.Row="1"
+                                           Text="{Binding Symbol, Mode=OneTime}"
+                                           Style="{StaticResource listDetailStyle}" />
+                                </Grid>
                             </Grid>
+                            <BoxView Grid.Row="1"
+                                  Color="LightGray" 
+                                     HeightRequest="1"
+                                     HorizontalOptions="FillAndExpand"/>
+
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

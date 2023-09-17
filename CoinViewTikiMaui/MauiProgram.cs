@@ -16,6 +16,9 @@ namespace CoinViewTikiMaui
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("proxima_nova_bold", "ProximaNovaBold");
+                    fonts.AddFont("proxima_nova_regular", "ProximaNovaReg");
+                    fonts.AddFont("proxima_nova_semibold", "ProximaNovaSemiBold");
                 });
 
             Akavache.Registrations.Start("ApplicationName");
