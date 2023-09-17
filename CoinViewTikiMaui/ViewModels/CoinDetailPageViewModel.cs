@@ -37,13 +37,21 @@ namespace CoinViewTikiMaui.ViewModels
 
          public async Task GetCoinDetailAsync(string coinName)
         {
+            if (IsBusy)
+                return;
+
             try
             {
+                IsBusy = true;
                 CoinDetails = await this.coinGeckoAPIService.GetCoinDetailAsync(coinName);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("Failed to get coin details: ", ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
