@@ -80,6 +80,10 @@
                               Padding="5"
                               BackgroundColor="White"
                               ColumnDefinitions="70,*">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:CoinListPageViewModel}}, Path=TapCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </Grid.GestureRecognizers>
 
                             <Image 
                                    WidthRequest="50"

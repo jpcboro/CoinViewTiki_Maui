@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CoinViewTikiMaui.Views.CoinDetailPage"
+             Title="CoinDetailPage">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0"
+                                 EndPoint="1,0">
+                <GradientStop Color="#4E3775"
+                              Offset="0.1" />
+                <GradientStop Color="#8750E6"
+                              Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid Padding="0,50,0,0"
+              RowSpacing="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0"
+                  Padding="20,0,20,20"
+                  RowSpacing="-10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackLayout HorizontalOptions="Start"
+                             WidthRequest="50"
+                             HeightRequest="50">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoBackCommand}"></TapGestureRecognizer>
+                    </StackLayout.GestureRecognizers>
+                    <Image Source="left.png"
+                           HorizontalOptions="StartAndExpand"
+                           VerticalOptions="Start" />
+                </StackLayout>
+
+                <Label Text="Coin Detail"
+                       FontFamily="ProximaNovaBold"
+                       FontSize="20"
+                       Grid.Column="1"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="Center"
+                       TextColor="White" />
+
+            </Grid>
+            <Grid Grid.Row="1"
+                  Padding="0,0,0,0">
+
+                <Frame CornerRadius="30"
+                       Margin="0,40,0,0"
+                       BackgroundColor="White"
+                       VerticalOptions="FillAndExpand">
+                    <StackLayout VerticalOptions="FillAndExpand"
+                                 BackgroundColor="Transparent"
+                                 Spacing="10">
+                        <StackLayout.Padding>
+                            <OnPlatform x:TypeArguments="Thickness">
+                                <On Platform="Android">0,70,0,0</On>
+                                <On Platform="iOS">20,70,20,0</On>
+                            </OnPlatform>
+                        </StackLayout.Padding>
+                        <StackLayout Spacing="0">
+                            <Label Text="{Binding CoinDetails.Name}"
+                                   Style="{StaticResource listNameStyle}"
+                                   FontSize="25"
+                                   TextColor="DarkSlateBlue"/>
+                            <Label Text="{Binding CoinDetails.Symbol}"
+                                   Style="{StaticResource listDetailStyle}"
+                                   TextColor="DimGray" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal"
+                                     Padding="0,0,0,15">
+                            <Label Text="Current Price:"
+                                   Style="{StaticResource listDetailStyle}"
+                                   VerticalOptions="Center"
+                                   TextColor="DimGray"/>
+                            <Label Text="{Binding CoinDetails.market_data.current_price.usd, StringFormat='${0}'}"
+                                   Style="{StaticResource listHeaderStyle}"
+                                   FontSize="30"
+                                   TextColor="#74c21e"/>
+                        </StackLayout>
+                        <StackLayout Spacing="5">
+                            <Label Text="{Binding CoinDetails.Name, StringFormat='About {0}'}"
+                                   Style="{StaticResource listNameStyle}"
+                                   TextColor="DimGray"/>
+
+                            <ScrollView>
+                                <Label Text="{Binding CoinDetails.description.en}"
+                                       TextType="Html"
+                                       Style="{StaticResource listNameStyle}"
+                                       HorizontalOptions="FillAndExpand"
+                                       VerticalOptions="FillAndExpand"
+                                       TextColor="DarkGray" />
+                            </ScrollView>
+
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                <Grid VerticalOptions="Start"
+                      HorizontalOptions="Center"
+                      Padding="0,0,0,70">
+                    <Frame HeightRequest="60"
+                           WidthRequest="60"
+                           CornerRadius="50"
+                           HasShadow="False"
+                           IsClippedToBounds="True"
+                           BackgroundColor="#8750E6">
+                        <Image Grid.Row="1"
+                               Source="{Binding CoinDetails.image.large}"
+                               Aspect="AspectFit" />
+                    </Frame>
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -10,5 +10,7 @@ namespace CoinViewTikiMaui.Services
     public interface ICoinGeckoAPIService
     {
         Task<List<MarketUSDCoin>> GetCoinsViaUSDMarketAsync(int days = 1, bool forceRefresh = false);
+        Task<CoinData> GetCoinDetailAsync(string coinId);
+        
     }
 }

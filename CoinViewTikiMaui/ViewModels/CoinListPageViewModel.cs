@@ -1,6 +1,8 @@
 ﻿using CoinViewTikiMaui.Models;
 using CoinViewTikiMaui.Services;
+using CoinViewTikiMaui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MvvmHelpers;
 using Refit;
 using System;
@@ -62,6 +64,13 @@ namespace CoinViewTikiMaui.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        [RelayCommand]
+        async Task Tap(Coin coin)
+        {
+            string coinId = coin.Id;
+            await Shell.Current.GoToAsync($"{nameof(CoinDetailPage)}?Name={coinId}", true);
         }
     }
 }

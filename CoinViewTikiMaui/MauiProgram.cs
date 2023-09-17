@@ -24,6 +24,8 @@ namespace CoinViewTikiMaui
 
             builder.Services.AddSingleton<CoinListPage>();
             builder.Services.AddTransient<CoinListPageViewModel>();
+            builder.Services.AddTransient<CoinDetailPage>();
+            builder.Services.AddTransient<CoinDetailPageViewModel>();
             builder.Services.AddTransient<ICoinGeckoAPIService,CoinGeckoAPIService>();
             return builder.Build();
         }

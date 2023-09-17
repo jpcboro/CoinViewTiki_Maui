@@ -26,5 +26,10 @@ namespace CoinViewTikiMaui.Services
         {
             return await coinGeckoApi.GetCoinsByUSDMarket();
         }
+
+        public async Task<CoinData> GetCoinDetailAsync(string coinId)
+        {
+            return await coinGeckoApi.GetCoinData(coinId);
+        }
     }
 }
