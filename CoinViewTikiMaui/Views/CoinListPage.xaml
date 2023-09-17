@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CoinViewTikiMaui.Views.CoinListPage"
+             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:model="clr-namespace:CoinViewTikiMaui.Models"
+             xmlns:viewModel="clr-namespace:CoinViewTikiMaui.ViewModels"
+             Title="">
+    <Grid Padding="0" RowDefinitions="Auto,Auto,*" RowSpacing="10">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0"
+                                 EndPoint="1,0">
+                <GradientStop Color="#4E3775"
+                              Offset="0.1" />
+                <GradientStop Color="#8750E6"
+                              Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <!--Page Name and Logo-->
+        <HorizontalStackLayout Margin="0,50,0,0"
+                               HorizontalOptions="CenterAndExpand"
+                               Spacing="15">
+            <Image Source="coinviewtikilogo.png"
+                   HeightRequest="35"
+                   WidthRequest="35"
+                   Aspect="AspectFit" />
+            <Label Grid.Row="0"
+                   Text="All Coins"
+                   FontFamily="ProximaNovaBold"
+                   FontSize="35"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="Center"
+                   TextColor="White" />
+
+        </HorizontalStackLayout>
+        <!--Search-->
+        <Border Grid.Row="1"
+                BackgroundColor="White"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="Start"
+                HeightRequest="80"
+                Margin="10,0,10,0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="40" />
+            </Border.StrokeShape>
+            <SearchBar Placeholder="Search"
+                       TextColor="Black" 
+                       VerticalOptions="CenterAndExpand"/>
+        </Border>
+        <!--List-->
+        <Border Grid.Row="2"
+                HorizontalOptions="CenterAndExpand"
+                BackgroundColor="White">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="30" />
+            </Border.StrokeShape>
+            <CollectionView 
+                            ItemsSource="{Binding Coins}"
+                            SelectionMode="None"
+                            IsGrouped="True"
+                            Margin="5,0,5,0"
+                            VerticalOptions="FillAndExpand">
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Grid VerticalOptions="FillAndExpand"
+                              Padding="10">
+                            <Label Text="{Binding Key}"
+                                   Style="{StaticResource listHeaderStyle}"
+                                   TextColor="LightSlateGray"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:MarketUSDCoin">
+                        <Grid AutomationId="CoinListViewCell"
+                              HeightRequest="100"
+                              Margin="0,0,0,5"
+                              ColumnSpacing="10"
+                              Padding="5"
+                              BackgroundColor="White"
+                              ColumnDefinitions="70,*">
+
+                            <Image 
+                                   WidthRequest="50"
+                                   HeightRequest="50"
+                                   Aspect="AspectFit">
+                                <Image.Source>
+                                    <UriImageSource CacheValidity="5"
+                                                    CachingEnabled="True"
+                                                    Uri="{Binding Image}" />
+                                </Image.Source>
+                            </Image>
+                            <Grid Grid.Column="1"
+                                  Padding="0,5,0,0"
+                                  RowDefinitions="Auto,*"
+                                  RowSpacing="10">
+                                <Label Text="{Binding Name, Mode=OneTime}"
+                                       Style="{StaticResource listNameStyle}" />
+                                <Label Grid.Row="1"
+                                       Text="{Binding Symbol, Mode=OneTime}"
+                                       Style="{StaticResource listDetailStyle}" />
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Border>
+       
+        <!--</Grid>-->
+    </Grid>
+</ContentPage>
