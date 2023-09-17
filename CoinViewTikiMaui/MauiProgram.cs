@@ -18,8 +18,10 @@ namespace CoinViewTikiMaui
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            Akavache.Registrations.Start("ApplicationName");
+
 #if DEBUG
-		builder.Logging.AddDebug();
+       builder.Logging.AddDebug();
 #endif
 
             builder.Services.AddSingleton<CoinListPage>();

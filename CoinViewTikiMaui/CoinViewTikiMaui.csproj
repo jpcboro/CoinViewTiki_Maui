@@ -55,11 +55,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="akavache" Version="9.1.20" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
 		<PackageReference Include="HorusStudio.Maui.Skeleton" Version="2.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="NSubstitute" Version="5.1.0" />
+		<PackageReference Include="Polly" Version="7.2.4" />
 		<PackageReference Include="Refit" Version="7.0.0" />
 		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
 		<PackageReference Include="Sharpnado.HorusSkeleton.Maui" Version="2.0.0" />
