@@ -29,7 +29,10 @@ namespace CoinViewTikiMaui.Tests
             var mockCoinDetails = fixture.Create<CoinData>();
             var service = Substitute.For<ICoinGeckoAPIService>();
             service.GetCoinDetailAsync(Arg.Any<string>()).Returns(Task.FromResult(mockCoinDetails));
-            coinDetailPageViewModel = new CoinDetailPageViewModel(service);
+            var connectivity = Substitute.For<IConnectivityWrapper>();
+            connectivity.HasInternet().Returns(true);
+            var dialogService = Substitute.For<IDialogService>();
+            coinDetailPageViewModel = new CoinDetailPageViewModel(service, connectivity, dialogService);
             await coinDetailPageViewModel.GetCoinDetailAsync(mockCoinDetails.Id);
 
             //Act

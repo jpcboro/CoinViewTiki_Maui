@@ -5,7 +5,12 @@
              xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:model="clr-namespace:CoinViewTikiMaui.Models"
              xmlns:viewModel="clr-namespace:CoinViewTikiMaui.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Title="">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Loaded"
+                                        Command="{Binding InitCommand}" />
+    </ContentPage.Behaviors>
     <Grid Padding="0" RowDefinitions="Auto,Auto,*" RowSpacing="10">
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0"
@@ -36,20 +41,21 @@
         <!--Search-->
         <Border Grid.Row="1"
                 BackgroundColor="White"
-                HorizontalOptions="CenterAndExpand"
                 VerticalOptions="Start"
                 HeightRequest="80"
-                Margin="10,0,10,0">
+                Margin="20,0,20,0">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="40" />
             </Border.StrokeShape>
             <SearchBar Placeholder="Search"
-                       TextColor="Black" 
-                       VerticalOptions="CenterAndExpand"/>
+                       TextColor="Black"
+                       VerticalOptions="FillAndExpand"
+                       Margin="20,0,0,0"/>
         </Border>
         <!--List-->
         <Border Grid.Row="2"
-                HorizontalOptions="CenterAndExpand"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
                 BackgroundColor="White">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="30" />
@@ -116,7 +122,8 @@
                                       RowSpacing="10"
                                       VerticalOptions="Center">
                                     <Label Text="{Binding Name, Mode=OneTime}"
-                                           Style="{StaticResource listNameStyle}" />
+                                           Style="{StaticResource listNameStyle}" 
+/>
                                     <Label Grid.Row="1"
                                            Text="{Binding Symbol, Mode=OneTime}"
                                            Style="{StaticResource listDetailStyle}" />
@@ -132,7 +139,14 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </Border>
-       
+        <!--Loading-->
+        <ActivityIndicator Grid.Row="2"
+                           Margin="0,50,0,0"
+                           VerticalOptions="Start"
+                           HorizontalOptions="Center"
+                           IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           Color="Orange" />
         <!--</Grid>-->
     </Grid>
 </ContentPage>

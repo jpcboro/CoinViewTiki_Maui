@@ -29,10 +29,13 @@ namespace CoinViewTikiMaui.Tests
             var mockCoinsList = fixture.CreateMany<MarketUSDCoin>(250).ToList();
             var service = Substitute.For<ICoinGeckoAPIService>();
             service.GetCoinsViaUSDMarketAsync(Arg.Any<int>(),Arg.Any<bool>()).Returns(mockCoinsList);
-            coinListPageViewModel = new CoinListPageViewModel(service);
+            var connectivity = Substitute.For<IConnectivityWrapper>();
+            connectivity.HasInternet().Returns(true);
+            var dialogService = Substitute.For<IDialogService>();
+            coinListPageViewModel = new CoinListPageViewModel(service, connectivity, dialogService);
 
             //Act
-            var coinsList = coinListPageViewModel.GetCoinList();
+            coinListPageViewModel.InitCommand.Execute(null);
 
             //Assert
             Assert.NotNull(coinListPageViewModel.Coins);

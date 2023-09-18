@@ -14,7 +14,10 @@ namespace CoinViewTikiMaui.ViewModels
     [QueryProperty("Name", "Name")]
     public partial class CoinDetailPageViewModel : BaseViewModel
     {
-        readonly ICoinGeckoAPIService coinGeckoAPIService;
+        ICoinGeckoAPIService coinGeckoAPIService;
+        IConnectivityWrapper connectivity;
+        IDialogService dialogService;
+
         string name;
         public string Name
         {
@@ -30,9 +33,13 @@ namespace CoinViewTikiMaui.ViewModels
         [ObservableProperty]
         CoinData coinDetails = new();
 
-        public CoinDetailPageViewModel(ICoinGeckoAPIService coinGeckoAPIService)
+        public CoinDetailPageViewModel(ICoinGeckoAPIService coinGeckoAPIService, 
+                                       IConnectivityWrapper connectivity,
+                                       IDialogService dialogService)
         {
             this.coinGeckoAPIService = coinGeckoAPIService;
+            this.connectivity = connectivity;
+            this.dialogService = dialogService;
         }
 
          public async Task GetCoinDetailAsync(string coinName)
@@ -42,12 +49,20 @@ namespace CoinViewTikiMaui.ViewModels
 
             try
             {
+                if (!connectivity.HasInternet())
+                {
+                    await dialogService.ShowOKDialog("No connectivity", "Please check internet and try again.", "OK");
+                    return;
+                }
+
                 IsBusy = true;
                 CoinDetails = await this.coinGeckoAPIService.GetCoinDetailAsync(coinName);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("Failed to get coin details: ", ex.Message);
+                await dialogService.ShowOKDialog("Error", $"Something went wrong: {ex.Message}", "OK");
+
             }
             finally
             {

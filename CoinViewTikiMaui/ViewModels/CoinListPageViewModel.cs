@@ -16,19 +16,23 @@ namespace CoinViewTikiMaui.ViewModels
 {
     public partial class CoinListPageViewModel : BaseViewModel
     {
+        IConnectivityWrapper connectivity;
         ICoinGeckoAPIService coinGeckoAPIService;
+        IDialogService dialogService;
         const string baseUrl = "https://api.coingecko.com";
 
         [ObservableProperty]
         ObservableRangeCollection<Grouping<string, MarketUSDCoin>> coins = new();
 
-        public CoinListPageViewModel(ICoinGeckoAPIService coinGeckoAPIService)
+        public CoinListPageViewModel(ICoinGeckoAPIService coinGeckoAPIService, 
+                                     IConnectivityWrapper connectivity,
+                                     IDialogService dialogService)
         {
             Title = "Coins List";
 
             this.coinGeckoAPIService = coinGeckoAPIService;
-
-            Task.Run(async () => await GetCoinList());
+            this.connectivity = connectivity;
+            this.dialogService = dialogService;
         }
 
         public async Task GetCoinList(bool isForceRefresh = false)
@@ -38,6 +42,12 @@ namespace CoinViewTikiMaui.ViewModels
 
             try
             {
+                if (!connectivity.HasInternet())
+                {
+                    await dialogService.ShowOKDialog("No connectivity", "Please check internet and try again.", "OK");
+                    return;
+                }
+
                 IsBusy = true;
 
                 List<MarketUSDCoin> coinsList = await coinGeckoAPIService.GetCoinsViaUSDMarketAsync();
@@ -57,8 +67,8 @@ namespace CoinViewTikiMaui.ViewModels
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine($"Unable to get coins: {ex.Message}");
+                await dialogService.ShowOKDialog("Error", $"Something went wrong: {ex.Message}", "OK");
             }
             finally
             {
@@ -71,6 +81,12 @@ namespace CoinViewTikiMaui.ViewModels
         {
             string coinId = coin.Id;
             await Shell.Current.GoToAsync($"{nameof(CoinDetailPage)}?Name={coinId}", true);
+        }
+
+        [RelayCommand]
+        async Task Init()
+        {
+            await GetCoinList();
         }
     }
 }
