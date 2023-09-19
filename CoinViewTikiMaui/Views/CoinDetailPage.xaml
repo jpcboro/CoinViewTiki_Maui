@@ -14,7 +14,7 @@
                               Offset="1.0" />
             </LinearGradientBrush>
         </Grid.Background>
-        <Grid Padding="0,50,0,0"
+        <Grid Padding="0,20,0,0"
               RowSpacing="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -41,13 +41,16 @@
                     </StackLayout.GestureRecognizers>
                     <Image Source="left.png"
                            HorizontalOptions="StartAndExpand"
-                           VerticalOptions="Start" />
+                           VerticalOptions="Start"
+                           WidthRequest="35"
+                           HeightRequest="35" />
                 </StackLayout>
 
                 <Label Text="Coin Detail"
                        FontFamily="ProximaNovaBold"
                        FontSize="20"
                        Grid.Column="1"
+                       Margin="0,10,0,0"
                        HorizontalOptions="CenterAndExpand"
                        VerticalOptions="Center"
                        TextColor="White" />
@@ -56,10 +59,13 @@
             <Grid Grid.Row="1"
                   Padding="0,0,0,0">
 
-                <Frame CornerRadius="30"
+                <Border Padding="20,0,20,0"
                        Margin="0,40,0,0"
                        BackgroundColor="White"
                        VerticalOptions="FillAndExpand">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="30" />
+                    </Border.StrokeShape>
                     <StackLayout VerticalOptions="FillAndExpand"
                                  BackgroundColor="Transparent"
                                  Spacing="10"
@@ -95,7 +101,7 @@
                                      sk:Skeleton.IsBusy="{Binding IsBusy}"
                                      sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"
                                      sk:Skeleton.BackgroundColor="MediumPurple">
-                            <Label Text="Current Price:"
+                            <Label Text="Current Price:  "
                                    Style="{StaticResource listDetailStyle}"
                                    VerticalOptions="Center"
                                    TextColor="DimGray"
@@ -126,20 +132,22 @@
 
                         </StackLayout>
                     </StackLayout>
-                </Frame>
+                </Border>
                 <Grid VerticalOptions="Start"
                       HorizontalOptions="Center"
                       Padding="0,0,0,70">
-                    <Frame HeightRequest="60"
-                           WidthRequest="60"
-                           CornerRadius="50"
-                           HasShadow="False"
-                           IsClippedToBounds="True"
+                    <Border HeightRequest="80"
+                           WidthRequest="80"
                            BackgroundColor="#8750E6">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="50" />
+                        </Border.StrokeShape>
                         <Image Grid.Row="1"
                                Source="{Binding CoinDetails.image.large}"
+                               HeightRequest="50"
+                               WidthRequest="50"
                                Aspect="AspectFit" />
-                    </Frame>
+                    </Border>
                 </Grid>
 
             </Grid>
