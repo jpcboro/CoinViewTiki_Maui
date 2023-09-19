@@ -6,6 +6,7 @@
              xmlns:model="clr-namespace:CoinViewTikiMaui.Models"
              xmlns:viewModel="clr-namespace:CoinViewTikiMaui.ViewModels"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="clr-namespace:CoinViewTikiMaui.Behaviors"
              Title="">
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Loaded"
@@ -47,10 +48,17 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="40" />
             </Border.StrokeShape>
-            <SearchBar Placeholder="Search"
+            <SearchBar x:Name="SearchBar"
+                       Placeholder="Search"
                        TextColor="Black"
                        VerticalOptions="CenterAndExpand"
-                       FontSize="20"/>
+                       FontSize="20"
+                       SearchCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModel:CoinListPageViewModel}}, Path=SearchCommand}"
+                       SearchCommandParameter="{Binding Text, Source={x:Reference SearchBar}}">
+                <SearchBar.Behaviors>
+                    <local:SearchTextChangedBehavior />
+                </SearchBar.Behaviors>
+            </SearchBar>
         </Border>
         <!--List-->
         <Border Grid.Row="2"
