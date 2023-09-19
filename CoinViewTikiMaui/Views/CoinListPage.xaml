@@ -43,14 +43,14 @@
                 BackgroundColor="White"
                 VerticalOptions="Start"
                 HeightRequest="80"
-                Margin="20,0,20,0">
+                Margin="10,0,10,0">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="40" />
             </Border.StrokeShape>
             <SearchBar Placeholder="Search"
                        TextColor="Black"
-                       VerticalOptions="FillAndExpand"
-                       Margin="20,0,0,0"/>
+                       VerticalOptions="CenterAndExpand"
+                       FontSize="20"/>
         </Border>
         <!--List-->
         <Border Grid.Row="2"
