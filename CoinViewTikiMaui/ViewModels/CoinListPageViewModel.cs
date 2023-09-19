@@ -21,12 +21,16 @@ namespace CoinViewTikiMaui.ViewModels
         IDialogService dialogService;
         const string baseUrl = "https://api.coingecko.com";
         List<MarketUSDCoin> filteredCoinList = new();
+        bool coinsCachedPresent;
 
         [ObservableProperty]
         ObservableRangeCollection<Grouping<string, MarketUSDCoin>> coins = new();
 
         [ObservableProperty]
         string searchText;
+
+        [ObservableProperty]
+        bool isRefreshing;
 
         public CoinListPageViewModel(ICoinGeckoAPIService coinGeckoAPIService, 
                                      IConnectivityWrapper connectivity,
@@ -54,20 +58,26 @@ namespace CoinViewTikiMaui.ViewModels
 
                 IsBusy = true;
 
-                List<MarketUSDCoin> coinsList = await coinGeckoAPIService.GetCoinsViaUSDMarketAsync();
+                List<MarketUSDCoin> coinsList = await coinGeckoAPIService.GetCoinsViaUSDMarketAsync(forceRefresh: isForceRefresh);
 
                 if (Coins.Count != 0)
                     Coins.Clear();
 
-                var sortedCoins = from item in coinsList
-                                  orderby item.Name
-                                  group item by item.Name[0].ToString().ToUpperInvariant()
-                                  into itemGroup
-                                  select new Grouping<string, MarketUSDCoin>(itemGroup.Key, itemGroup);
+                coinsCachedPresent = coinsList != null;
 
-               
-                Coins.ReplaceRange(sortedCoins);
+                if (coinsCachedPresent)
+                {
+                    coinsCachedPresent = true;
+                    var sortedCoins = from item in coinsList
+                                      orderby item.Name
+                                      group item by item.Name[0].ToString().ToUpperInvariant()
+                                      into itemGroup
+                                      select new Grouping<string, MarketUSDCoin>(itemGroup.Key, itemGroup);
 
+
+                    Coins.ReplaceRange(sortedCoins);
+                }
+                
             }
             catch (Exception ex)
             {
@@ -100,7 +110,15 @@ namespace CoinViewTikiMaui.ViewModels
 
             if (text.Length >= 1)
             {
-                await GetCoinList();
+                if (!coinsCachedPresent)
+                {
+                    await Refresh();
+                }
+                else
+                {
+                    await GetCoinList();
+
+                }
 
                 if (Coins.Any())
                 {
@@ -152,6 +170,24 @@ namespace CoinViewTikiMaui.ViewModels
             {
                 Coins.Clear();
             }
+        }
+
+        [RelayCommand]
+        async Task Refresh()
+        {
+            IsRefreshing = true;
+
+            if (connectivity.HasInternet())
+            {
+                await GetCoinList(isForceRefresh: true);
+            }
+            else
+            {
+                await dialogService.ShowOKDialog("No connectivity", "Please check internet and try again.", "OK");
+
+            }
+
+            IsRefreshing = false;
         }
     }
 }
